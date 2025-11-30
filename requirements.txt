@@ -1,0 +1,24 @@
+# LLM Mini-Project Dependencies
+
+# Transformers and related libraries
+transformers>=4.35.0
+datasets>=2.14.0
+accelerate>=0.24.0
+sentencepiece>=0.1.99
+
+# PyTorch (CPU version - for GPU, see PyTorch website for specific installation)
+torch>=2.0.0 
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Web scraping (if needed for data collection)
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# Data processing and utilities
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Optional but useful
+tqdm>=4.66.0
+matplotlib>=3.7.0
