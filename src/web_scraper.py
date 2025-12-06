@@ -68,13 +68,7 @@ class WebScraper:
             chemin_fichier = os.path.join(self.output_dir, nom_fichier)
 
             with open(chemin_fichier, 'w', encoding='utf-8') as fichier:
-                # En-tête du fichier
-                fichier.write(f"Source: {url}\n")
-                if description:
-                    fichier.write(f"Description: {description}\n")
-                fichier.write("="*50 + "\n\n")
-
-                # Contenu
+                # Contenu seulement (pas de métadonnées pour éviter le bruit)
                 for p in paragraphes:
                     texte_propre = p.get_text().strip()
                     if texte_propre:

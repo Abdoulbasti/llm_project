@@ -1,7 +1,3 @@
-Source: https://golftec.com/optimotion
-Description: Règles de Golf - GolfTec
-==================================================
-
 Golf Lessons
 
 Find a Location

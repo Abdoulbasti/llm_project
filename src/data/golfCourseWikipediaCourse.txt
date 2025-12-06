@@ -1,7 +1,3 @@
-Source: https://en.wikipedia.org/wiki/Golf_course
-Description: Parcours de Golf
-==================================================
-
 A golf course is the grounds on which the sport of golf is played. It consists of a series of holes, each consisting of a tee box, a fairway, the rough and other hazards, and a green with a cylindrical hole in the ground, known as a "cup". The cup holds a flagstick, known as a "pin". A standard round of golf consists of 18 holes,[1] and as such most courses contain 18 distinct holes; however, there are many 9-hole courses and some that have holes with shared fairways or greens. There are also courses with a non-standard number of holes, such as 12 or 14.[2][3]
 
 The vast majority of golf courses have holes of varying length and difficulties that are assigned a standard score, known as par, that a proficient player should be able to achieve; this is usually three, four or five strokes. Par-3 courses consist of holes all of which have a par of three. Short courses have gained in popularity; these consist of mostly par 3 holes, but often have some short par 4 holes.[4]

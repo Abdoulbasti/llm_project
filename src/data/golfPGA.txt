@@ -1,7 +1,3 @@
-Source: https://en.wikipedia.org/wiki/Professional_Golfers%27_Association_of_America
-Description: PGA - Association des golfeurs professionnels
-==================================================
-
 The Professional Golfers' Association of America (PGA of America) is an American organization of golf professionals that was founded in 1916. Consisting of nearly 29,000 members, the PGA of America's undertaking is to establish and elevate the standards of the profession and to grow interest and participation in the game of golf.
 
 In 1968, the PGA Tour was spun off from the PGA of America as a separate organization to administer professional golf tours. However, the PGA of America still directly conducts several tournaments, including the PGA Championship, the Senior PGA Championship, and the Women's PGA Championship.

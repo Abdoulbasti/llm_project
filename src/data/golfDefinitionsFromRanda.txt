@@ -1,4 +1,0 @@
-Source: https://www.randa.org/rog/definitions
-Description: Définitions - Randa
-==================================================
-

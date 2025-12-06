@@ -1,7 +1,3 @@
-Source: https://blog.visitacostadelsol.com/en/golf-for-beginners-basic-rules-and-terms-for-playing-golf
-Description: Golf pour Débutants - Costa Del Sol
-==================================================
-
 Tags:
 Golf
 
