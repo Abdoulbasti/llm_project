@@ -8,7 +8,7 @@ Pour ajouter de nouvelles sources à scraper:
 """
 
 from web_scraper import WebScraper
-from scraping_sources import SOURCES_CONFIG
+from scraping_sources_3 import SOURCES_CONFIG
 
 
 def main():
