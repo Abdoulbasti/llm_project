@@ -1,45 +1,44 @@
 """
 Étape 5: Créer un dataset pour le fine-tuning.
-Transforme le corpus nettoyé en Dataset Hugging Face (version 5.1: un seul long texte).
+Découpe le corpus en paragraphes pour éviter la perte de données.
 """
 
 import os
 from datasets import Dataset
 
 
-def load_cleaned_corpus(corpus_file: str = "src/data/cleaned_corpus.txt") -> str:
-    """Charge le corpus nettoyé."""
+def create_dataset(corpus_file: str = "src/data/cleaned_corpus.txt", output_dir: str = "src/dataset") -> Dataset:
+    """Crée le dataset depuis le corpus en le découpant par paragraphes."""
     if not os.path.exists(corpus_file):
         raise FileNotFoundError(f"Fichier '{corpus_file}' introuvable. Lancez d'abord l'étape 4.")
 
     with open(corpus_file, "r", encoding="utf-8") as f:
-        return f.read()
+        corpus = f.read()
 
+    # Découper en paragraphes (évite la perte de données)
+    texts = [p.strip() for p in corpus.split("\n\n") if p.strip()]
 
-def create_dataset(corpus_file: str = "src/data/cleaned_corpus.txt", output_dir: str = "src/dataset") -> Dataset:
-    """
-    Crée et sauvegarde le dataset depuis le corpus.
-
-    Returns:
-        Dataset Hugging Face
-    """
-    # Charger corpus
-    corpus = load_cleaned_corpus(corpus_file)
-
-    # Créer dataset (version 5.1)
-    dataset = Dataset.from_dict({"text": [corpus]})
+    # Créer dataset
+    dataset = Dataset.from_dict({"text": texts})
 
     # Sauvegarder
-    # dataset.save_to_disk(output_dir)
+    os.makedirs(output_dir, exist_ok=True)
+    dataset.save_to_disk(output_dir)
 
-    # Crée un fichier mon_dataset.csv
-    # dataset.to_csv("src/dataset/mon_dataset.csv")
-
-    # Crée un fichier mon_dataset.parquet (Recommandé)
-    # dataset.to_parquet("src/dataset/mon_dataset.parquet")
-
-    # Stats
-    print(f"✅ Dataset créé: {len(corpus):,} caractères, ~{len(corpus.split()):,} mots")
-    print(f"   Sauvegardé dans: {output_dir}")
+    print(f"✅ Dataset: {len(dataset):,} exemples")
+    print(f"   Sauvegardé: {output_dir}")
 
     return dataset
+
+
+def main():
+    print("=" * 60)
+    print("ÉTAPE 5: Dataset")
+    print("=" * 60)
+    dataset = create_dataset()
+    print("✅ Étape 5 terminée\n")
+    return dataset
+
+
+if __name__ == "__main__":
+    main()
