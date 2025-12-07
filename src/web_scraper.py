@@ -31,7 +31,7 @@ class WebScraper:
             os.makedirs(self.output_dir)
             print(f"✅ Dossier '{self.output_dir}' créé.")
 
-    def scrape_page(self, url: str, nom_fichier: str, description: Optional[str] = None) -> bool:
+    def scrape_page(self, url: str, nom_fichier: str, description: Optional[str] = None) -> dict:
         """
         Récupère le contenu d'une page web et le sauvegarde dans un fichier.
 
@@ -41,7 +41,7 @@ class WebScraper:
             description: Description optionnelle de la source
 
         Returns:
-            True si le scraping a réussi, False sinon
+            dict: {"success": bool, "skipped": bool}
         """
         print(f"\n{'='*60}")
         if description:
@@ -49,6 +49,12 @@ class WebScraper:
         print(f"🔗 URL: {url}")
         print(f"💾 Fichier: {nom_fichier}")
         print(f"{'='*60}")
+
+        # Vérifier si le fichier existe déjà
+        chemin_fichier = os.path.join(self.output_dir, nom_fichier)
+        if os.path.exists(chemin_fichier):
+            print(f"⏭️  Fichier déjà existant, scraping ignoré")
+            return {"success": True, "skipped": True}
 
         try:
             # 1. Récupération du contenu
@@ -65,8 +71,6 @@ class WebScraper:
             print(f"📝 {len(paragraphes)} paragraphes trouvés")
 
             # 4. Sauvegarde dans le fichier
-            chemin_fichier = os.path.join(self.output_dir, nom_fichier)
-
             with open(chemin_fichier, 'w', encoding='utf-8') as fichier:
                 # Contenu seulement (pas de métadonnées pour éviter le bruit)
                 for p in paragraphes:
@@ -75,17 +79,17 @@ class WebScraper:
                         fichier.write(texte_propre + "\n\n")
 
             print(f"✅ Succès! Contenu sauvegardé dans '{chemin_fichier}'")
-            return True
+            return {"success": True, "skipped": False}
 
         except requests.exceptions.Timeout:
             print(f"❌ Erreur: Timeout lors de la connexion à {url}")
-            return False
+            return {"success": False, "skipped": False}
         except requests.exceptions.RequestException as e:
             print(f"❌ Erreur de connexion: {e}")
-            return False
+            return {"success": False, "skipped": False}
         except Exception as e:
             print(f"❌ Erreur inattendue: {e}")
-            return False
+            return {"success": False, "skipped": False}
 
     def scrape_multiple_sources(self, sources: list) -> dict:
         """
@@ -103,21 +107,25 @@ class WebScraper:
             "total": len(sources),
             "succes": 0,
             "echecs": 0,
+            "ignores": 0,
             "fichiers_crees": []
         }
 
         for i, source in enumerate(sources, 1):
             print(f"\n[{i}/{len(sources)}]")
 
-            success = self.scrape_page(
+            res = self.scrape_page(
                 url=source["url"],
                 nom_fichier=source["nom_fichier"],
                 description=source.get("description")
             )
 
-            if success:
+            if res["success"]:
                 resultats["succes"] += 1
-                resultats["fichiers_crees"].append(source["nom_fichier"])
+                if not res["skipped"]:
+                    resultats["fichiers_crees"].append(source["nom_fichier"])
+                else:
+                    resultats["ignores"] += 1
             else:
                 resultats["echecs"] += 1
 
@@ -126,9 +134,11 @@ class WebScraper:
         print("📊 RÉSUMÉ DU SCRAPING")
         print(f"{'='*60}")
         print(f"✅ Succès: {resultats['succes']}/{resultats['total']}")
+        if resultats["ignores"] > 0:
+            print(f"⏭️  Ignorés (déjà existants): {resultats['ignores']}/{resultats['total']}")
         print(f"❌ Échecs: {resultats['echecs']}/{resultats['total']}")
         if resultats["fichiers_crees"]:
-            print(f"\n📁 Fichiers créés dans '{self.output_dir}':")
+            print(f"\n📁 Nouveaux fichiers créés dans '{self.output_dir}':")
             for fichier in resultats["fichiers_crees"]:
                 print(f"   - {fichier}")
         print(f"{'='*60}\n")
