@@ -35,17 +35,3 @@ def tokenize_dataset(dataset_dir: str = "src/dataset", block_size: int = BLOCK_S
 
     return split["train"], split["test"], tokenizer
 
-
-# def main():
-#     print("=" * 60)
-#     print("ÉTAPE 7: Tokenisation")
-#     print("=" * 60)
-
-#     train, test, tokenizer = tokenize_dataset()
-#     print("✅ Étape 7 terminée\n")
-
-#     return train, test, tokenizer
-
-
-# if __name__ == "__main__":
-#     main()

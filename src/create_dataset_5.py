@@ -55,16 +55,3 @@ def create_dataset(corpus_file: str = "src/data/cleaned_corpus.txt", output_dir:
     print(f"   Sauvegardé: {output_dir}")
 
     return dataset
-
-
-def main():
-    print("=" * 60)
-    print("ÉTAPE 5: Dataset")
-    print("=" * 60)
-    dataset = create_dataset()
-    print("✅ Étape 5 terminée\n")
-    return dataset
-
-
-if __name__ == "__main__":
-    main()

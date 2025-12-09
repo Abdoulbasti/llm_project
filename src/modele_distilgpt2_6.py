@@ -16,17 +16,3 @@ def load_model(model_name: str = "distilgpt2"):
 
     print(f"✅ Modèle chargé: {model.num_parameters():,} paramètres")
     return tokenizer, model
-
-
-def main():
-    print("=" * 60)
-    print("ÉTAPE 6: Modèle DistilGPT2")
-    print("=" * 60)
-
-    tokenizer, model = load_model()
-    print("✅ Étape 6 terminée\n")
-    return tokenizer, model
-
-
-if __name__ == "__main__":
-    main()

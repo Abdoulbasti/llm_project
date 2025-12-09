@@ -327,9 +327,4 @@ SOURCES_CONFIG = [
         "nom_fichier": "golfBeginnersGuideFromGolfDigest.txt",
         "description": "Guide du Débutant au Golf - Golf Digest"
     }
-    # {
-    #     "url": "https://votre-url.com",
-    #     "nom_fichier": "votre_fichier.txt",
-    #     "description": "Description de la source"
-    # },
 ]
