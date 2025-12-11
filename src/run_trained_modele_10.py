@@ -27,7 +27,7 @@ def chatbot_finetuned(model_dir: str = "src/model/mini-gpt-finetuned"):
     print("=" * 60 + "\n")
 
     while True:
-        prompt = input("Vous: ").strip()
+        prompt = input("You: ").strip()
 
         if prompt.lower() in ["exit", "quit"]:
             print("\n👋 Au revoir!\n")

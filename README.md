@@ -1,89 +1,80 @@
 # LLM Mini-Project
 
-Création d'un modèle génératif spécialisé par fine-tuning de distilgpt2.
+Création d'un modèle génératif spécialisé sur le golf par fine-tuning de DistilGPT2.
 
 ## Installation
 
 ```bash
-# Créer et activer l'environnement virtuel
-python3 venv_builder.py
-source .venv/bin/activate
-
-# Ou installation manuelle
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+# Créer et activer l'environnement virtuel et tous bu
+./env.sh
 ```
 
-## Structure
+## Pipeline complet
 
-```
-llm_project/
-├── .venv/                    # Environnement virtuel
-├── data/                     # Fichiers texte (.txt)
-├── mini-gpt-finetuned/      # Modèle entraîné (généré)
-├── venv_builder.py          # Script de setup
-├── example_data_loader.py   # Exemple de chargement de données
-└── requirements.txt         # Dépendances
+Pour exécuter tout le pipeline (scraping → fine-tuning → chatbot):
+```bash
+# Décommenter le code dans src/main.py puis:
+python3 src/main.py
 ```
 
 ## Utilisation
 
-### 1. Préparer les données
+### 1. Chatbot avec modèle de base (sans fine-tuning)
+
+Utilise DistilGPT2 sans spécialisation:
 ```bash
-mkdir data
-# Ajouter vos fichiers .txt dans data/
-python example_data_loader.py
+python3 src/chatbot_without_specialisation.py
 ```
 
-### 2. Entraîner le modèle
-```python
-from transformers import AutoTokenizer, AutoModelForCausalLM, Trainer, TrainingArguments
-from datasets import Dataset
+**Caractéristiques:**
+- Modèle: `distilgpt2` (base)
+- Réponses génériques, non spécialisées
+- Utilisé comme référence pour comparaison
 
-# Charger le modèle de base
-model_name = "distilgpt2"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+### 2. Chatbot avec fine-tuning (spécialisé golf)
 
-# Configurer padding
-tokenizer.pad_token = tokenizer.eos_token
-model.config.pad_token_id = tokenizer.eos_token_id
-
-# Fine-tuning (voir InstructionMiniProjet.pdf)
-```
-
-### 3. Générer du texte
-```python
-from transformers import pipeline
-
-generator = pipeline("text-generation", model="./mini-gpt-finetuned")
-output = generator("Votre prompt ici", max_length=100)
-print(output[0]["generated_text"])
-```
-
-## Commandes utiles
-
+Utilise le modèle fine-tuné sur le golf:
 ```bash
-# Activer l'environnement
-source .venv/bin/activate
-
-# Désactiver
-deactivate
-
-# Vérifier l'installation
-python -c "import transformers; print(transformers.__version__)"
-python -c "import torch; print(torch.__version__)"
+python3 src/main.py
 ```
+
+**Caractéristiques:**
+- Modèle: `src/model/mini-gpt-finetuned/`
+- Réponses spécialisées sur le golf
+- Fine-tuné sur corpus golf
+
+### 3. Tester les deux modèles
+Utilisez les prompts dans `prompt_input.txt` pour comparer les réponses des deux modèles:
+```bash
+# 30 prompts de test sur le golf:
+# - Définitions & Concepts
+# - Équipement
+# - Parcours & Terrain
+# - Histoire & Règles
+# - Techniques & Stratégies
+```
+
+**Exemple de test:**
+1. Lancez `chatbot_without_specialisation.py`
+2. Testez avec: "What is golf?"
+3. Notez la réponse
+4. Lancez `main.py`
+5. Testez avec le même prompt
+6. Comparez les résultats
+
 
 ## Dépendances principales
 
-- transformers
-- datasets
-- torch
-- accelerate
-- sentencepiece
+- `transformers` - Modèles et pipelines Hugging Face
+- `datasets` - Gestion des datasets
+- `torch` - PyTorch (backend)
+- `accelerate` - Accélération entraînement
+- `sentencepiece` - Tokenisation
+- `beautifulsoup4` - Web scraping
+- `requests` - Requêtes HTTP
 
-## Référence
+## Résultats attendus
 
-Voir [InstructionMiniProjet.pdf](InstructionMiniProjet.pdf) pour le guide complet.
+**Comparaison modèle base vs fine-tuné:**
+- **Modèle base**: Réponses génériques, peut dériver du sujet
+- **Modèle fine-tuné**: Réponses spécialisées golf, vocabulaire technique
